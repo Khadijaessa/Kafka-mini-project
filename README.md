@@ -1,30 +1,30 @@
 # Kafka-mini-project
 ## contexe
-Dans le cadre de ce projet on est sence  faire fonctionne le pipline de donnee, con stituees de ce composantes:
-1. Kafka , kafka a comme role de capturer les donnee generee en sstreaming (simulation avec un script python `SendTempPressure.py` qui joue le role de producteur), les donnees sont des valeurs de tempertures et de pression, 
-2. Telegraf , cette outil va nous permettre de configurer un consommateur Kafka qui va récupérer les données des topics states1 (températures) et states2 (pressions) depuis Kafka et ensuite les transférer vers comme InfluxDB.
+Dans le cadre de ce projet, nous sommes censés construire un Pipeline de Données avec Kafka et InfluxDB, avec les composants : 
+1. Kafka , le rôle de kafka est de capturer les données générées en streaming (simulation avec un script python `SendTempPressure.py` qui joue le rôle de producteur), les données sont des valeurs de température et de pression.
+2. Telegraf , cette outil va nous permettre de configurer un consommateur Kafka qui va récupérer les données des topics states1 (températures) et states2 (pressions) depuis Kafka et ensuite les transférer vers InfluxDB.
 5. InfluxDB est une base de données de séries chronologiques conçue pour stocker, interroger et visualiser des données temporelles. Une fois que Telegraf a récupéré les données depuis Kafka, il les stocke dans InfluxDB.
-6. Grafana StackGrafana est un outil de visualisation de données open source. Vous pouvez l'utiliser pour créer des tableaux de bord interactifs et des graphiques basés sur les données stockées dans InfluxDB. ce qui nous va permettre de surveiller et d'analyser les données de température et de pression en temps réel.
+6. Grafana Stack, Grafana est un outil de visualisation de données open source, on peut l'utiliser pour créer des tableaux de bord interactifs et des graphiques basés sur les données stockées dans InfluxDB. ce qui nous va permettre de surveiller et d'analyser les données de température et de pression en temps réel.
 
-## etapes du projet et debougage:
-
-Cloner le dossier et exécuter le docker-compose :
+## Étapes du projet et débogage:
 
 Clonez le dossier contenant les fichiers de configuration du pipeline de données:
 ```
 git clone https://github.com/hrhouma/Kafka-mini-projet-1.git
 ```
-Utilisez cette commande pour démarrer les conteneurs Docker définis dans votre fichier docker-compose.yml:
+Utilisez cette commande pour démarrer les conteneurs Docker définis dans le fichier `docker-compose-test2.yml`:
  ```sudo docker compose -f docker-compose-test2.yml --env-file conf/variables.env up -d --pull always```
  
 Vérifier les conteneurs en cours d'exécution :
 ```
 docker ps
 ```
-S'ssurez que les conteneurs pour Kafka, InfluxDB et Grafana sont tous en cours d'exécution,
+
+![data-pipeline (34)](https://github.com/Khadijaessa/Kafka-mini-project/assets/123899056/72959eaa-b1a4-46c5-ba19-f7c2a3b44ffd)
+
 Accéder aux interfaces des outils :
 
-Utilisez les ports spécifiés dans la configuration de `docker_compose.yaml` pour accéder aux interfaces des outils :
+Utilisez les ports externes spécifiés dans la configuration de `docker-compose-test2.yml` pour accéder aux interfaces des outils :
 
 Port 9000 pour KafDrop : http://localhost:9000
 
@@ -32,26 +32,28 @@ Port 8086 pour InfluxDB : http://localhost:8086
 
 Port 3000 pour Grafana : http://localhost:3000
 
-Se connecter à l'interface InfluxDB via le port 8086, générez un token d'accès et créer un bucket nommé "system_state" .
-
-
+Se connecter à l'interface InfluxDB `(influx-admin:ThisIsNotThePasswordYouAreLookingFor)`, générer un nouveau token (lui donner tous les accès sur tous le buckets) et créer un bucket nommé "system_state" 
 
 Ajouter le nouveau token d'accès et spécifier le nom du bucket ("system_state") dans le fichier d'environnement `variables.env`.
 
 ![variables](https://github.com/Khadijaessa/Kafka-mini-project/assets/123899056/835c70d5-9324-47ba-afdb-c341817869a4)
 
 Apres avoir configuerer l'environment pour kafka-python dans de dossier `DataSender`, on execute le script python avec la commande:
+
  ```python SendTempPressure.py```
-### probleme 1:
-les données ont été envoyées aux topics, on peut les voir via l'interface KafDorp, mais pas dans le bucket créé en influx.
+ 
+### problème 1:
+Les données ont été envoyées aux topics, on peut les voir via l'interface KafDorp, mais pas dans le bucket créé en influx.
 
 ![image](https://github.com/Khadijaessa/Kafka-mini-project/assets/123899056/4bd2e775-729a-40f6-bd3e-44b3743920d1)
 
 ![empltybucket](https://github.com/Khadijaessa/Kafka-mini-project/assets/123899056/452bf9e9-1794-4a60-8ad4-fee7fe8b2605)
 
 Ce problème peut être résolu en réfléchissant au fil manquant qui peut relier nos topics à notre base de données.
-on ouvrant le fichier `telegraf.conf`, on voit deux parties de configuration.
-la premiere correspond au output qui est la base de donnees influx :
+
+On ouvrant le fichier `telegraf.conf`, on voit deux parties de configuration.
+
+La première correspond à l'output qui est la base de donnees Influxdb :
 ```
 ###############################################################################
 #                            OUTPUT PLUGINS                                   #
@@ -75,9 +77,10 @@ la premiere correspond au output qui est la base de donnees influx :
  ```
 La première remarque: 
 
-- Il faut remplacer le token avec le token generer et configurer dans`variables.env`.
+- Il faut remplacer le token avec le token générer et configurer dans `variables.env`.
 
-La deuxième partie de fichier correspond a l'input kafka consumer:
+La deuxième partie de fichier correspond à l'input kafka consumer:
+
 ```
 ###############################################################################
 #                            SERVICE INPUT PLUGINS                            #
@@ -102,70 +105,72 @@ La deuxième partie de fichier correspond a l'input kafka consumer:
   # version = ""
 ```
 La deuxième remarque:
-- Dans cette partie de configuration il faut changer le topic "states" avec les topic "states1" , "states2".
+
+- Dans cette partie de configuration il faut changer le topic "states" avec les topic "states1" et "states2".
   
 ![topics](https://github.com/Khadijaessa/Kafka-mini-project/assets/123899056/a5dd80d3-7035-490c-b671-8b68b0e7dc68)
 
-arreter les conteneurs:
+Arrêter les conteneurs:
 
 ```sudo docker compose -f docker-compose-test2.yml --env-file conf/variables.env down ``` 
  
-reconstruire les conteneur
+Reconstruire les conteneurs:
 
  ```sudo docker compose -f docker-compose-test2.yml --env-file conf/variables.env up -d --pull always```
->>>>>oriblem token
 
-Après avoir exécuté la commande dans le chemin où se trouve le fichier `telegraf.conf`, 
+Après avoir exécuté la commande suivante dans le chemin où se trouve le fichier `telegraf.conf`, 
 
  ```telegraf --config telegraf.conf```
+ 
  j'ai eu :
  
 ![config1](https://github.com/Khadijaessa/Kafka-mini-project/assets/123899056/b726f02f-a618-4ef3-b7ae-822d09950595)
 
-## probleme 2
+### problème 2:
+
 Lorsque j'exécute le script python, des messages d'erreur commencent à apparaître :
 
 ![errormssg](https://github.com/Khadijaessa/Kafka-mini-project/assets/123899056/38a9924e-d44d-4218-bef6-064a75e30331)
 
-
-Cette erreur indique que le problème est dans l'IP du output qui est Influx, on explorant l'interface d'Influxdb, la partie telegraf nous pouvons voir un configuration du output:
+Cette erreur indique que le problème est dans l'IP du output qui est Influxdb, on explorant l'interface d'Influxdb, la partie telegraf nous pouvons voir une configuration du output:
 
 ![consumertelegr1](https://github.com/Khadijaessa/Kafka-mini-project/assets/123899056/e00b64b2-7c61-40ac-ba10-d850914fa34e)
 
-Dans cette configuration on vois qui'ils ont met comme adresse IP du Influx `http://localhost:8086` au lieu de `http://influxdb:8086`,
+Dans cette configuration on vois qui'ils ont met comme adresse IP du Influx `http://localhost:8086` qui est l'adresse externe d'interface du Influx au lieu de l'adresse interne du conteneur `http://influxdb:8086`,
 
 ![data-pipeline (30)](https://github.com/Khadijaessa/Kafka-mini-project/assets/123899056/e8e10c57-dde9-4488-a12f-dc870e9e154a)
-
 
 J'ai configuré le fichier avec cette adresse,
 
 ![localhost](https://github.com/Khadijaessa/Kafka-mini-project/assets/123899056/9fa3fa34-a5a0-4411-ac83-3474c001e3e8)
 
-
-Et après avoir reconstruit le pipeline et exécuté le script telegraf.conf et python, les données arrivent dans le bocket :
+Et après avoir reconstruit le pipeline et exécuté la coniguratio `telegraf.conf` et le script python, les données arrivent dans le bucket :
 
 ![reussi2](https://github.com/Khadijaessa/Kafka-mini-project/assets/123899056/107d0b29-afb4-4e13-ba4d-8b2bab290f89)
-on resulant ce problem de cette manier j'ai pense que on chanje dan le docker-compose pour qui il puisse connecter a influxdb directement avec l'adresse `http://influxdb:8086`
 
-alors j'ai  dajouter lee networks `db` a kafka dans docker compose,  je pense le kafka ne reconue pas Influxdb comme output, il n'ont pas un network comun:
+L'erreur à été bien résolu.
+
+> En résolvant ce problème de cette façon, j'ai pensé que nous pourrions modifier le docker-compose afin qu'il puisse se connecter directement à influxdb avec l'adresse interne `http://influxdb:8086`
+
+Kafka ne reconnaît pas Influxdb comme output, Car ils n'ont pas de réseau commun j'ai donc ajouté le Network `db` à kafka dans Docker Compose :
 
 ![data-pipeline (32)](https://github.com/Khadijaessa/Kafka-mini-project/assets/123899056/282e80a4-3035-4804-9a9e-73e3c8e5ad3d)
 
-Et comme par magie, ça marche aussi. Et j'avais les données dans mon bucket, avec une différence dans le nom d'hôte, puisque cette fois nous communiquons avec le conteneur `influx` avec l'adresse interne.
+Et comme par magie, ça marche aussi. Et j'avais les données dans mon bucket, avec une différence dans le nom d'hôte, puisque cette fois nous communiquons avec le conteneur `influxdb` avec son adresse interne.
 
 ![data-pipeline (33)](https://github.com/Khadijaessa/Kafka-mini-project/assets/123899056/fdd26738-89f8-4c0e-8c16-1762a386ed70)
 
-##  Probleme 3
+##  problème 3:
 
-à cette étape, j'ai essayé de lire le bucket avec grafana, j'ai eu l'erreur suivante :
-
+A ce stade, j'ai essayé de lire le bucket avec Grafana, en saisissant les informations sur la base de données Influxdb :
 
 ![grafanalocalhost](https://github.com/Khadijaessa/Kafka-mini-project/assets/123899056/9720d8c2-0951-4dc9-92db-5f3b7bb01365)
 
+J'ai eu l'erreur suivant:
 
 ![BUCKETERROR](https://github.com/Khadijaessa/Kafka-mini-project/assets/123899056/ea8482ee-5b1b-4992-9263-20f245a16380)
 
-Pour m'en assurer, j'essaie de me connecter à Influxdb dans le conteneur grafana, avec les commandes :
+Pour m'en assurer, j'ai essaie de me connecter à Influxdb dans le conteneur grafana, avec les commandes :
 
 Pour accéder au conteneur:
 
@@ -177,15 +182,20 @@ Pour  tester la connectioon:
 ```
 curl  http://localhost:8086/ping
 ```
-
-Le problème était également dû à l'adresse utilisée, j'ai utilisé l'adresse `http://localhost:8086`, tandis que grafana communique avec Influxdb en interne et a reconnu influxdb comme nom de service, vous devez donc utiliser ` http : //influxdb:8086` dans grafana.
-
-
 ![data-pipeline (31)](https://github.com/Khadijaessa/Kafka-mini-project/assets/123899056/eedc1dd7-56a9-40c8-b720-527739cfef4b)
 
+Le problème était également dû à l'adresse utilisée, j'ai utilisé l'adresse `http://localhost:8086`, tandis que grafana communique avec Influxdb en interne et a reconnu influxdb comme nom de service, on doit donc utiliser ` http : //influxdb:8086` dans Grafana.
 
+![image](https://github.com/Khadijaessa/Kafka-mini-project/assets/123899056/387d7015-61f3-402d-bb49-864d3981c59a)
+
+Et finalement ouais, nous pouvons faire des rapports! 
+
+Oups, c'est quoi ce langage "flux" !!
 
 ![GAFANA](https://github.com/Khadijaessa/Kafka-mini-project/assets/123899056/5e9c257a-78bb-449d-85d9-4a0d6a6763b8)
+
+## conclusion:
+en faisaunt cette pritique, on peux mieux comprendre les connection internes et exeternes des conteneurs
 
 
 

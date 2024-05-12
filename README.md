@@ -25,22 +25,27 @@ S'ssurez que les conteneurs pour Kafka, InfluxDB et Grafana sont tous en cours d
 Accéder aux interfaces des outils :
 
 Utilisez les ports spécifiés dans la configuration de `docker_compose.yaml` pour accéder aux interfaces des outils :
+
 Port 9000 pour KafDrop : http://localhost:9000
+
 Port 8086 pour InfluxDB : http://localhost:8086
+
 Port 3000 pour Grafana : http://localhost:3000
 
 Se connecter à l'interface InfluxDB via le port 8086, générez un token d'accès et créer un bucket nommé "system_state" .
+Ajoutez le nouveau token d'accès et spécifiez le nom du bucket ("system_state") dans le fichier d'environnement variables.env.
 Apres avoir configuerer l'environment pour kafka-python dans de dossier `DataSender`, on execute le script python avec la commande:
  ```python SendTempPressure.py```
 ### probleme 1:
-les données ont été envoyées aux sujets, on peut les voir via l'interface KafDorp, mais pas dans le bucket créé en influx.
+les données ont été envoyées aux topics, on peut les voir via l'interface KafDorp, mais pas dans le bucket créé en influx.
 
 ![image](https://github.com/Khadijaessa/Kafka-mini-project/assets/123899056/4bd2e775-729a-40f6-bd3e-44b3743920d1)
+
 ![empltybucket](https://github.com/Khadijaessa/Kafka-mini-project/assets/123899056/452bf9e9-1794-4a60-8ad4-fee7fe8b2605)
 
 Ce problème peut être résolu en réfléchissant au fil manquant qui peut relier nos topics à notre base de données.
 on ouvrant le fichier `telegraf.conf`, on voit deux parties de configuration.
-le premier correspond au output qui est la base de donnees influx :
+la premiere correspond au output qui est la base de donnees influx :
 ```
 ###############################################################################
 #                            OUTPUT PLUGINS                                   #
@@ -107,11 +112,11 @@ Lorsque j'exécute le script python, des messages d'erreur commencent à appara�
 
 ![errormssg](https://github.com/Khadijaessa/Kafka-mini-project/assets/123899056/38a9924e-d44d-4218-bef6-064a75e30331)
 
-cette erreur indique que le problème est dans l'IP du output qui Influx, on explorant l'interface d'Influxdb, la partie telegraf nous pouvons voir une configuration du output:
+Cette erreur indique que le problème est dans l'IP du output qui est Influx, on explorant l'interface d'Influxdb, la partie telegraf nous pouvons voir un configuration du output:
 
 ![consumertelegr1](https://github.com/Khadijaessa/Kafka-mini-project/assets/123899056/e00b64b2-7c61-40ac-ba10-d850914fa34e)
 
-dan cette configuration on vois il ont met comme IP du Influx ``
+dans cette configuration on vois qui'il ont met comme IP du Influx ``
 
 
 

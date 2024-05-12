@@ -173,7 +173,7 @@ A ce stade, j'ai essayé de lire le bucket avec Grafana, en saisissant les infor
 
 ![grafanalocalhost](https://github.com/Khadijaessa/Kafka-mini-project/assets/123899056/9720d8c2-0951-4dc9-92db-5f3b7bb01365)
 
-J'ai eu l'erreur suivant:
+J'ai eu l'erreur suivante:
 
 ![BUCKETERROR](https://github.com/Khadijaessa/Kafka-mini-project/assets/123899056/ea8482ee-5b1b-4992-9263-20f245a16380)
 

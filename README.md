@@ -1,6 +1,6 @@
 # Kafka-mini-project
 ## contexe
-Dans le cadre de ce projet, nous sommes censés construire un Pipeline de Données avec Kafka et InfluxDB, avec les composants : 
+Dans le cadre de ce projet, nous sommes censés construire un Pipeline de données avec Kafka et InfluxDB, avec les composants : 
 1. Kafka , le rôle de kafka est de capturer les données générées en streaming (simulation avec un script python `SendTempPressure.py` qui joue le rôle de producteur), les données sont des valeurs de température et de pression.
 2. Telegraf , cette outil va nous permettre de configurer un consommateur Kafka qui va récupérer les données des topics "states1" (températures) et "states2" (pressions) depuis Kafka et ensuite les transférer vers InfluxDB.
 5. InfluxDB est une base de données de séries chronologiques conçue pour stocker, interroger et visualiser des données temporelles. Une fois que Telegraf a récupéré les données depuis Kafka, il les stocke dans InfluxDB.
@@ -170,17 +170,21 @@ L'erreur à été bien résolu.
 
 Arrêter les conteneurs:
 
-```sudo docker compose -f docker-compose-test2.yml --env-file conf/variables.env down ``` 
+```
+sudo docker compose -f docker-compose-test2.yml --env-file conf/variables.env down
+``` 
 
 Kafka ne reconnaît pas Influxdb comme output, Car ils n'ont pas de réseau commun j'ai donc ajouté le Network `db` à kafka dans Docker Compose :
 
 ![data-pipeline (32)](https://github.com/Khadijaessa/Kafka-mini-project/assets/123899056/282e80a4-3035-4804-9a9e-73e3c8e5ad3d)
 
-Et ça a marche aussi. Et j'avais les données dans mon bucket, avec une différence dans le nom d'hôte, puisque cette fois nous communiquons avec le conteneur `influxdb` avec son adresse interne.
+> On exécute la commande pour démarrer les conteneurs avec le nouveau fichier docker-compose, et on refait toutes les étapes.
+
+Et ça a marché aussi, et j'avais les données dans mon bucket, avec une différence dans le nom d'hôte, puisque cette fois nous communiquons avec le conteneur `influxdb` avec son adresse interne.
 
 ![data-pipeline (33)](https://github.com/Khadijaessa/Kafka-mini-project/assets/123899056/fdd26738-89f8-4c0e-8c16-1762a386ed70)
 
-### problème 3:
+### Problème 3:
 
 A ce stade, j'ai essayé de lire le bucket avec Grafana, en saisissant les informations sur la base de données Influxdb :
 

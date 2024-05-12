@@ -45,7 +45,13 @@ Apres avoir configuerer l'environment pour kafka-python dans de dossier `DataSen
  ```python SendTempPressure.py```
  
 ### problème 1:
-Les données ont été envoyées aux topics, on peut les voir via l'interface KafDorp, mais pas dans le bucket créé en influx.
+Les données ont été envoyées aux topics, on peut les voir via l'interface KafDorp:
+
+![STATEES1](https://github.com/Khadijaessa/Kafka-mini-project/assets/123899056/3424f358-14ca-4041-8a17-0526f6076ae5)
+
+![STATEES2](https://github.com/Khadijaessa/Kafka-mini-project/assets/123899056/6303f120-5e66-4c76-8540-561acff9ab8c)
+
+Mais pas dans le bucket créé dans Influxdb.
 
 ![image](https://github.com/Khadijaessa/Kafka-mini-project/assets/123899056/4bd2e775-729a-40f6-bd3e-44b3743920d1)
 
@@ -119,9 +125,6 @@ La deuxième remarque:
 
 ![consumer](https://github.com/Khadijaessa/Kafka-mini-project/assets/123899056/d60b0bef-a757-4265-826e-ca7415d30464)
 
-Arrêter les conteneurs:
-
-```sudo docker compose -f docker-compose-test2.yml --env-file conf/variables.env down ``` 
  
 Reconstruire les conteneurs:
 
@@ -163,11 +166,15 @@ L'erreur à été bien résolu.
 
 > En résolvant ce problème de cette façon, j'ai pensé que nous pourrions modifier le docker-compose afin qu'il puisse se connecter directement à influxdb avec l'adresse interne `http://influxdb:8086`
 
+Arrêter les conteneurs:
+
+```sudo docker compose -f docker-compose-test2.yml --env-file conf/variables.env down ``` 
+
 Kafka ne reconnaît pas Influxdb comme output, Car ils n'ont pas de réseau commun j'ai donc ajouté le Network `db` à kafka dans Docker Compose :
 
 ![data-pipeline (32)](https://github.com/Khadijaessa/Kafka-mini-project/assets/123899056/282e80a4-3035-4804-9a9e-73e3c8e5ad3d)
 
-Et comme par magie, ça marche aussi. Et j'avais les données dans mon bucket, avec une différence dans le nom d'hôte, puisque cette fois nous communiquons avec le conteneur `influxdb` avec son adresse interne.
+Et ça a marche aussi. Et j'avais les données dans mon bucket, avec une différence dans le nom d'hôte, puisque cette fois nous communiquons avec le conteneur `influxdb` avec son adresse interne.
 
 ![data-pipeline (33)](https://github.com/Khadijaessa/Kafka-mini-project/assets/123899056/fdd26738-89f8-4c0e-8c16-1762a386ed70)
 

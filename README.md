@@ -142,7 +142,7 @@ Après avoir exécuté la commande suivante dans le chemin où se trouve le fich
  
 ![config1](https://github.com/Khadijaessa/Kafka-mini-project/assets/123899056/b726f02f-a618-4ef3-b7ae-822d09950595)
 
-### problème 2:
+### Problème 2:
 
 Lorsque j'exécute le script python, des messages d'erreur commencent à apparaître :
 

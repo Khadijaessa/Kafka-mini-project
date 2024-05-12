@@ -96,9 +96,18 @@ La deuxième partie de fichier correspond a l'input kafka consumer:
   # version = ""
 ```
 La deuxième remarque:
-- dans cette partie de configuration il faut changer le topic "states" avec les topic "states1" , "states2".
+- Dans cette partie de configuration il faut changer le topic "states" avec les topic "states1" , "states2".
   
 ![topics](https://github.com/Khadijaessa/Kafka-mini-project/assets/123899056/a5dd80d3-7035-490c-b671-8b68b0e7dc68)
+
+arreter les conteneurs:
+
+```sudo docker compose -f docker-compose-test2.yml --env-file conf/variables.env down ``` 
+ 
+reconstruire les conteneur
+
+ ```sudo docker compose -f docker-compose-test2.yml --env-file conf/variables.env up -d --pull always```
+>>>>>oriblem token
 
 Après avoir exécuté la commande dans le chemin où se trouve le fichier `telegraf.conf`, 
 
@@ -116,7 +125,48 @@ Cette erreur indique que le problème est dans l'IP du output qui est Influx, on
 
 ![consumertelegr1](https://github.com/Khadijaessa/Kafka-mini-project/assets/123899056/e00b64b2-7c61-40ac-ba10-d850914fa34e)
 
-dans cette configuration on vois qui'il ont met comme IP du Influx ``
+Dans cette configuration on vois qui'ils ont met comme adresse IP du Influx `http://localhost:8086` au lieu de `http://influxdb:8086`,
+
+![data-pipeline (30)](https://github.com/Khadijaessa/Kafka-mini-project/assets/123899056/e8e10c57-dde9-4488-a12f-dc870e9e154a)
+
+
+J'ai configuré le fichier avec cette adresse,
+
+![localhost](https://github.com/Khadijaessa/Kafka-mini-project/assets/123899056/9fa3fa34-a5a0-4411-ac83-3474c001e3e8)
+
+
+Et après avoir reconstruit le pipeline et exécuté le script telegraf.conf et python, les données arrivent dans le bocket :
+
+![reussi2](https://github.com/Khadijaessa/Kafka-mini-project/assets/123899056/107d0b29-afb4-4e13-ba4d-8b2bab290f89)
+
+##  Probleme 3
+
+à cette étape, j'ai essayé de lire le bucket avec grafana, j'ai eu l'erreur suivante :
+
+![BUCKETERROR](https://github.com/Khadijaessa/Kafka-mini-project/assets/123899056/ea8482ee-5b1b-4992-9263-20f245a16380)
+
+Et en essayons de me connecter a Influxdb dans le conteneur de grafana, avec les commande:
+
+aceeder au conteneur:
+
+```
+docker exec -it grafana /bin/bash
+```
+commande pour la connectioon:
+
+```
+curl  http://localhost:8086/ping
+```
+
+![data-pipeline (31)](https://github.com/Khadijaessa/Kafka-mini-project/assets/123899056/eedc1dd7-56a9-40c8-b720-527739cfef4b)
+
+
+
+![GAFANA](https://github.com/Khadijaessa/Kafka-mini-project/assets/123899056/5e9c257a-78bb-449d-85d9-4a0d6a6763b8)
+
+
+
+
 
 
 

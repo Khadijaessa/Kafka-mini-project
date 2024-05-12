@@ -42,7 +42,9 @@ Ajouter le nouveau token d'accès et spécifier le nom du bucket ("system_state"
 
 Apres avoir configuerer l'environment pour kafka-python dans de dossier `DataSender`, on execute le script python avec la commande:
 
- ```python SendTempPressure.py```
+ ```
+ python SendTempPressure.py
+```
 
  ![image](https://github.com/Khadijaessa/Kafka-mini-project/assets/123899056/4bd2e775-729a-40f6-bd3e-44b3743920d1)
  

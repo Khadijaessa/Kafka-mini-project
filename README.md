@@ -160,7 +160,7 @@ J'ai configuré le fichier avec cette adresse,
 
 ![data-pipeline (35)](https://github.com/Khadijaessa/Kafka-mini-project/assets/123899056/25f5b82a-6001-4e05-8bc2-3e2332fc0000)
 
-Et après avoir reconstruit le pipeline et exécuté la coniguration `telegraf.conf` et le script python, les données arrivent dans le bucket :
+Et après avoir reconstruit le pipeline et exécuté la configuration `telegraf.conf` et le script python, les données arrivent dans le bucket :
 
 ![reussi2](https://github.com/Khadijaessa/Kafka-mini-project/assets/123899056/107d0b29-afb4-4e13-ba4d-8b2bab290f89)
 

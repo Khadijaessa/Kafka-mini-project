@@ -33,7 +33,13 @@ Port 8086 pour InfluxDB : http://localhost:8086
 Port 3000 pour Grafana : http://localhost:3000
 
 Se connecter à l'interface InfluxDB via le port 8086, générez un token d'accès et créer un bucket nommé "system_state" .
-Ajoutez le nouveau token d'accès et spécifiez le nom du bucket ("system_state") dans le fichier d'environnement variables.env.
+
+
+
+Ajouter le nouveau token d'accès et spécifier le nom du bucket ("system_state") dans le fichier d'environnement `variables.env`.
+
+![variables](https://github.com/Khadijaessa/Kafka-mini-project/assets/123899056/835c70d5-9324-47ba-afdb-c341817869a4)
+
 Apres avoir configuerer l'environment pour kafka-python dans de dossier `DataSender`, on execute le script python avec la commande:
  ```python SendTempPressure.py```
 ### probleme 1:
@@ -121,6 +127,7 @@ Lorsque j'exécute le script python, des messages d'erreur commencent à appara�
 
 ![errormssg](https://github.com/Khadijaessa/Kafka-mini-project/assets/123899056/38a9924e-d44d-4218-bef6-064a75e30331)
 
+
 Cette erreur indique que le problème est dans l'IP du output qui est Influx, on explorant l'interface d'Influxdb, la partie telegraf nous pouvons voir un configuration du output:
 
 ![consumertelegr1](https://github.com/Khadijaessa/Kafka-mini-project/assets/123899056/e00b64b2-7c61-40ac-ba10-d850914fa34e)
@@ -138,10 +145,21 @@ J'ai configuré le fichier avec cette adresse,
 Et après avoir reconstruit le pipeline et exécuté le script telegraf.conf et python, les données arrivent dans le bocket :
 
 ![reussi2](https://github.com/Khadijaessa/Kafka-mini-project/assets/123899056/107d0b29-afb4-4e13-ba4d-8b2bab290f89)
+on resulant ce problem de cette manier j'ai pense que on chanje dan le docker-compose pour qui il puisse connecter a influxdb directement avec l'adresse `http://influxdb:8086`
+
+alors j'ai  dajouter lee networks `db` a kafka dans docker compose,  je pense le kafka ne reconue pas Influxdb comme output, il n'ont pas un network comun:
+
+![data-pipeline (32)](https://github.com/Khadijaessa/Kafka-mini-project/assets/123899056/282e80a4-3035-4804-9a9e-73e3c8e5ad3d)
+
+Et comme par magie, ça marche aussi. Et j'avais les données dans mon bucket, avec une différence dans le nom d'hôte, puisque cette fois nous communiquons avec le conteneur `influx` avec l'adresse interne.
+
+![data-pipeline (33)](https://github.com/Khadijaessa/Kafka-mini-project/assets/123899056/fdd26738-89f8-4c0e-8c16-1762a386ed70)
 
 ##  Probleme 3
 
-à cette étape, j'ai essayé de lire le bucket avec grafana, j'ai eu l'erreur suivante :
+à cette étape, j'ai essayé de lire le bucket avec grafana, j'ai eu l'erreur suivante (j'avais pas encore remarqué la possibilité de changer docker-composé):
+
+j'ai utilise
 
 ![BUCKETERROR](https://github.com/Khadijaessa/Kafka-mini-project/assets/123899056/ea8482ee-5b1b-4992-9263-20f245a16380)
 

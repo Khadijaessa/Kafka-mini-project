@@ -116,8 +116,8 @@ La deuxième partie de fichier correspond à l'input kafka consumer:
 La deuxième remarque:
 
 - Dans cette partie de configuration il faut changer le topic "states" avec les topic "states1" et "states2".
-  
-![topics](https://github.com/Khadijaessa/Kafka-mini-project/assets/123899056/a5dd80d3-7035-490c-b671-8b68b0e7dc68)
+
+![consumer](https://github.com/Khadijaessa/Kafka-mini-project/assets/123899056/d60b0bef-a757-4265-826e-ca7415d30464)
 
 Arrêter les conteneurs:
 

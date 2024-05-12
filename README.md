@@ -157,24 +157,29 @@ Et comme par magie, ça marche aussi. Et j'avais les données dans mon bucket, a
 
 ##  Probleme 3
 
-à cette étape, j'ai essayé de lire le bucket avec grafana, j'ai eu l'erreur suivante (j'avais pas encore remarqué la possibilité de changer docker-composé):
+à cette étape, j'ai essayé de lire le bucket avec grafana, j'ai eu l'erreur suivante :
 
-j'ai utilise
+
+![grafanalocalhost](https://github.com/Khadijaessa/Kafka-mini-project/assets/123899056/9720d8c2-0951-4dc9-92db-5f3b7bb01365)
+
 
 ![BUCKETERROR](https://github.com/Khadijaessa/Kafka-mini-project/assets/123899056/ea8482ee-5b1b-4992-9263-20f245a16380)
 
-Et en essayons de me connecter a Influxdb dans le conteneur de grafana, avec les commande:
+Pour m'en assurer, j'essaie de me connecter à Influxdb dans le conteneur grafana, avec les commandes :
 
-aceeder au conteneur:
+Pour accéder au conteneur:
 
 ```
 docker exec -it grafana /bin/bash
 ```
-commande pour la connectioon:
+Pour  tester la connectioon:
 
 ```
 curl  http://localhost:8086/ping
 ```
+
+Le problème était également dû à l'adresse utilisée, j'ai utilisé l'adresse `http://localhost:8086`, tandis que grafana communique avec Influxdb en interne et a reconnu influxdb comme nom de service, vous devez donc utiliser ` http : //influxdb:8086` dans grafana.
+
 
 ![data-pipeline (31)](https://github.com/Khadijaessa/Kafka-mini-project/assets/123899056/eedc1dd7-56a9-40c8-b720-527739cfef4b)
 

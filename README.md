@@ -10,14 +10,16 @@ Dans le cadre de ce projet, nous sommes censés construire un Pipeline de Donné
 
 Clonez le dossier contenant les fichiers de configuration du pipeline de données:
 ```
-git clone https://github.com/hrhouma/Kafka-mini-projet-1.git
+ git clone https://github.com/hrhouma/Kafka-mini-projet-1.git
 ```
 Utilisez cette commande pour démarrer les conteneurs Docker définis dans le fichier `docker-compose-test2.yml`:
- ```sudo docker compose -f docker-compose-test2.yml --env-file conf/variables.env up -d --pull always```
+ ```
+ sudo docker compose -f docker-compose-test2.yml --env-file conf/variables.env up -d --pull always
+```
  
 Vérifier les conteneurs en cours d'exécution :
 ```
-docker ps
+ docker ps
 ```
 
 ![data-pipeline (34)](https://github.com/Khadijaessa/Kafka-mini-project/assets/123899056/72959eaa-b1a4-46c5-ba19-f7c2a3b44ffd)
@@ -79,7 +81,7 @@ La première remarque:
 
 - Il faut remplacer le token avec le token générer et configurer dans `variables.env`.
 
-  > on peut aussi changer notre configuration de l'output , on mettant `token="$INFLUXDB_TOKEN"`
+  > On peut aussi changer notre configuration de l'output , on mettant `token="$INFLUXDB_TOKEN"`
   > Et executer la commande :
   > ```
   > export INFLUX_TOKEN="MON_NOUVEAU_INFLUXDB_TOKEN"
@@ -127,7 +129,9 @@ Reconstruire les conteneurs:
 
 Après avoir exécuté la commande suivante dans le chemin où se trouve le fichier `telegraf.conf`, 
 
- ```telegraf --config telegraf.conf```
+ ```
+ telegraf --config telegraf.conf
+```
  
  j'ai eu :
  
@@ -203,6 +207,7 @@ Oups, c'est quoi ce langage "flux" !!
 
 ## conclusion:
 En faisant cette pratique, on peut mieux comprendre les connexions internes et externes des conteneurs, et comment gérer l'implémentation des réseaux dans docker-compose, pour connecter les différents composants.
+
 
 
 

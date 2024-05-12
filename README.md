@@ -158,7 +158,7 @@ Dans cette configuration on vois qui'ils ont met comme adresse IP du Influx `htt
 
 J'ai configuré le fichier avec cette adresse,
 
-![localhost](https://github.com/Khadijaessa/Kafka-mini-project/assets/123899056/9fa3fa34-a5a0-4411-ac83-3474c001e3e8)
+![data-pipeline (35)](https://github.com/Khadijaessa/Kafka-mini-project/assets/123899056/25f5b82a-6001-4e05-8bc2-3e2332fc0000)
 
 Et après avoir reconstruit le pipeline et exécuté la coniguration `telegraf.conf` et le script python, les données arrivent dans le bucket :
 

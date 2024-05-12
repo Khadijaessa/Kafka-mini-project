@@ -43,6 +43,8 @@ Ajouter le nouveau token d'accès et spécifier le nom du bucket ("system_state"
 Apres avoir configuerer l'environment pour kafka-python dans de dossier `DataSender`, on execute le script python avec la commande:
 
  ```python SendTempPressure.py```
+
+ ![image](https://github.com/Khadijaessa/Kafka-mini-project/assets/123899056/4bd2e775-729a-40f6-bd3e-44b3743920d1)
  
 ### problème 1:
 Les données ont été envoyées aux topics, on peut les voir via l'interface KafDorp:
@@ -52,8 +54,6 @@ Les données ont été envoyées aux topics, on peut les voir via l'interface Ka
 ![STATEES2](https://github.com/Khadijaessa/Kafka-mini-project/assets/123899056/6303f120-5e66-4c76-8540-561acff9ab8c)
 
 Mais pas dans le bucket créé dans Influxdb.
-
-![image](https://github.com/Khadijaessa/Kafka-mini-project/assets/123899056/4bd2e775-729a-40f6-bd3e-44b3743920d1)
 
 ![empltybucket](https://github.com/Khadijaessa/Kafka-mini-project/assets/123899056/452bf9e9-1794-4a60-8ad4-fee7fe8b2605)
 

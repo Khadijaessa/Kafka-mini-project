@@ -213,7 +213,9 @@ Et finalement ouais, nous pouvons faire des rapports!
 ![GAFANA](https://github.com/Khadijaessa/Kafka-mini-project/assets/123899056/5e9c257a-78bb-449d-85d9-4a0d6a6763b8)
 
 ## conclusion:
-En faisant cette pratique, on peut mieux comprendre les connexions internes et externes des conteneurs, et comment gérer l'implémentation des réseaux dans docker-compose, pour connecter les différents composants.
+ En faisant cette pratique, on peut mieux comprendre,
+ - Les connexions internes et externes des conteneurs et comment gérer l'implémentation des réseaux dans docker-compose, pour connecter les différents composants.
+ - L'utilisation des variables d'environnement dans Docker Compose pour spécifier les ports sur lequel un service doit écouter par exemple, ou pour stocker des informations sensibles telles que les identifiants et les mots de passe , et gérer les tokens et le nom des bucket comme dans le cas de Influxdb. 
 
 
 

@@ -212,8 +212,6 @@ Et finalement ouais, nous pouvons faire des rapports!
 
 ![GAFANA](https://github.com/Khadijaessa/Kafka-mini-project/assets/123899056/5e9c257a-78bb-449d-85d9-4a0d6a6763b8)
 
-Oups, c'est quoi ce langage "flux" !!
-
 ## conclusion:
 En faisant cette pratique, on peut mieux comprendre les connexions internes et externes des conteneurs, et comment gérer l'implémentation des réseaux dans docker-compose, pour connecter les différents composants.
 

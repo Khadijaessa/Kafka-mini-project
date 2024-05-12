@@ -144,7 +144,7 @@ Après avoir exécuté la commande suivante dans le chemin où se trouve le fich
 
 ### Problème 2:
 
-Lorsque j'exécute le script python, des messages d'erreur commencent à apparaître :
+Des messages d'erreur commencent à apparaître :
 
 ![errormssg](https://github.com/Khadijaessa/Kafka-mini-project/assets/123899056/38a9924e-d44d-4218-bef6-064a75e30331)
 

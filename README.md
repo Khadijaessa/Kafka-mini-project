@@ -79,6 +79,13 @@ La première remarque:
 
 - Il faut remplacer le token avec le token générer et configurer dans `variables.env`.
 
+  > on peut aussi changer notre configuration de l'output , on mettant `token="$INFLUXDB_TOKEN"`
+  > Et executer la commande :
+  > ```
+  > export INFLUX_TOKEN="MON_NOUVEAU_INFLUXDB_TOKEN"
+  > ```
+  > Avant d'exécuter le fichier `telegraf.conf`.
+
 La deuxième partie de fichier correspond à l'input kafka consumer:
 
 ```
@@ -136,7 +143,7 @@ Cette erreur indique que le problème est dans l'IP du output qui est Influxdb, 
 
 ![consumertelegr1](https://github.com/Khadijaessa/Kafka-mini-project/assets/123899056/e00b64b2-7c61-40ac-ba10-d850914fa34e)
 
-Dans cette configuration on vois qui'ils ont met comme adresse IP du Influx `http://localhost:8086` qui est l'adresse externe d'interface du Influx au lieu de l'adresse interne du conteneur `http://influxdb:8086`,
+Dans cette configuration on vois qui'ils ont met comme adresse IP du Influx `http://localhost:8086` qui est l'adresse externe du Influxdb au lieu de l'adresse interne du conteneur `http://influxdb:8086`,
 
 ![data-pipeline (30)](https://github.com/Khadijaessa/Kafka-mini-project/assets/123899056/e8e10c57-dde9-4488-a12f-dc870e9e154a)
 
@@ -144,7 +151,7 @@ J'ai configuré le fichier avec cette adresse,
 
 ![localhost](https://github.com/Khadijaessa/Kafka-mini-project/assets/123899056/9fa3fa34-a5a0-4411-ac83-3474c001e3e8)
 
-Et après avoir reconstruit le pipeline et exécuté la coniguratio `telegraf.conf` et le script python, les données arrivent dans le bucket :
+Et après avoir reconstruit le pipeline et exécuté la coniguration `telegraf.conf` et le script python, les données arrivent dans le bucket :
 
 ![reussi2](https://github.com/Khadijaessa/Kafka-mini-project/assets/123899056/107d0b29-afb4-4e13-ba4d-8b2bab290f89)
 
@@ -160,7 +167,7 @@ Et comme par magie, ça marche aussi. Et j'avais les données dans mon bucket, a
 
 ![data-pipeline (33)](https://github.com/Khadijaessa/Kafka-mini-project/assets/123899056/fdd26738-89f8-4c0e-8c16-1762a386ed70)
 
-##  problème 3:
+### problème 3:
 
 A ce stade, j'ai essayé de lire le bucket avec Grafana, en saisissant les informations sur la base de données Influxdb :
 
@@ -177,26 +184,25 @@ Pour accéder au conteneur:
 ```
 docker exec -it grafana /bin/bash
 ```
-Pour  tester la connectioon:
+Pour tester la connectioon:
 
 ```
 curl  http://localhost:8086/ping
 ```
 ![data-pipeline (31)](https://github.com/Khadijaessa/Kafka-mini-project/assets/123899056/eedc1dd7-56a9-40c8-b720-527739cfef4b)
 
-Le problème était également dû à l'adresse utilisée, j'ai utilisé l'adresse `http://localhost:8086`, tandis que grafana communique avec Influxdb en interne et a reconnu influxdb comme nom de service, on doit donc utiliser ` http : //influxdb:8086` dans Grafana.
+Le problème était également dû à l'adresse utilisée, j'ai utilisé l'adresse `http://localhost:8086`, tandis que grafana communique avec Influxdb en interne et elle connu influxdb comme nom de service, on doit donc utiliser ` http : //influxdb:8086` dans Grafana.
 
 ![image](https://github.com/Khadijaessa/Kafka-mini-project/assets/123899056/387d7015-61f3-402d-bb49-864d3981c59a)
 
 Et finalement ouais, nous pouvons faire des rapports! 
 
-Oups, c'est quoi ce langage "flux" !!
-
 ![GAFANA](https://github.com/Khadijaessa/Kafka-mini-project/assets/123899056/5e9c257a-78bb-449d-85d9-4a0d6a6763b8)
 
-## conclusion:
-en faisaunt cette pritique, on peux mieux comprendre les connection internes et exeternes des conteneurs
+Oups, c'est quoi ce langage "flux" !!
 
+## conclusion:
+En faisant cette pratique, on peut mieux comprendre les connexions internes et externes des conteneurs, et comment gérer l'implémentation des réseaux dans docker-compose, pour connecter les différents composants.
 
 
 
